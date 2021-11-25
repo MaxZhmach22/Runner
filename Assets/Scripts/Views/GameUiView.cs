@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace PiggerBomber
+namespace Runner
 {
     public sealed class GameUiView : MonoBehaviour
     {

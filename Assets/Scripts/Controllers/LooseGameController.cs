@@ -2,7 +2,7 @@
 using Zenject;
 using UniRx;
 
-namespace PiggerBomber
+namespace Runner
 {
     internal sealed class LooseGameController : GameState
     {

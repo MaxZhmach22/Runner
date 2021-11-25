@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PiggerBomber
+namespace Runner
 {
     internal class LevelView : MonoBehaviour
     {

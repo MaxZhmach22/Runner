@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace PiggerBomber
+namespace Runner
 {
     internal sealed class EndGameState : GameState
     {

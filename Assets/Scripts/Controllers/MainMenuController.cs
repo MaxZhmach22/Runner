@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace PiggerBomber
+namespace Runner
 {
     internal sealed class MainMenuController : BaseController
     {

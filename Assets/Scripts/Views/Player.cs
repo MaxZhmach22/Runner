@@ -2,7 +2,7 @@
 using Zenject;
 
 
-namespace PiggerBomber
+namespace Runner
 {
     internal class Player : MonoBehaviour
     {
@@ -11,6 +11,10 @@ namespace PiggerBomber
 
         private GameState _state;
         private GameStateFactory _gameStateFactory;
+        private Rigidbody _rigidbody;
+        public Rigidbody Rigidbody => _rigidbody;
+        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public float SwipeDeadZone { get; private set; }
 
         public GameStates CurrentGameState { get; private set; }
 
@@ -24,10 +28,11 @@ namespace PiggerBomber
         public void Init(GameStateFactory gameStateFactory)
         {
             _gameStateFactory = gameStateFactory;
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
         public void Start() =>
-            ChangeState(GameStates.Start);
+            ChangeState(GameStates.Game);
 
 
         #endregion

@@ -1,4 +1,4 @@
-﻿namespace PiggerBomber
+﻿namespace Runner
 {
     internal static class Constatnts
     {

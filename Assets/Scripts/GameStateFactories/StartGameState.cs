@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace PiggerBomber
+
+namespace Runner
 {
     internal sealed class StartGameState : GameState
     {
+        #region Fields
+
         private MainMenuController _mainMenuController;
-        private readonly MainMenuController.Factory _mainMenuControllerFactory;
+        private readonly MainMenuController.Factory _mainMenuControllerFactory; 
+
+        #endregion
+
+
 
         #region ClassLifeCycles
 

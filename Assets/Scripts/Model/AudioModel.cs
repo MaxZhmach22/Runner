@@ -1,4 +1,4 @@
-﻿namespace PiggerBomber
+﻿namespace Runner
 {
     internal sealed class AudioModel : IAudioModel
     {

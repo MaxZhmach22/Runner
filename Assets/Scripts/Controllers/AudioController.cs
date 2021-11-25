@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace PiggerBomber
+namespace Runner
 {
     internal sealed class AudioController /*: IAudioController*/
     {

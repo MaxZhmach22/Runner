@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace PiggerBomber
+namespace Runner
 {
     internal abstract class GameState : IDisposable
     {

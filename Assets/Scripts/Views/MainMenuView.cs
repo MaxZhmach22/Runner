@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace PiggerBomber
+namespace Runner
 {
     public sealed class MainMenuView : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-﻿namespace PiggerBomber
+﻿namespace Runner
 {
     internal interface IAudioModel
     {

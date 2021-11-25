@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace PiggerBomber
+namespace Runner
 {
     internal sealed class Installer : MonoInstaller
     {
@@ -10,17 +10,17 @@ namespace PiggerBomber
 
         [Header("Ui Views")]
         [SerializeField] private Transform _placeForUi;
-        [SerializeField] private MainMenuView _mainMenuView;
-        [SerializeField] private GameUiView _gameUiView;
-        [SerializeField] private LooseMenuView _looseMenuView;
+        //[SerializeField] private MainMenuView _mainMenuView;
+        //[SerializeField] private GameUiView _gameUiView;
+        //[SerializeField] private LooseMenuView _looseMenuView;
 
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<Player>().FromInstance(_player).AsSingle();
             InstalGameStateFactories();
-            MainMenuControllerBindings();
-            LooseMenuControllerBindings();
-            GameUiControllerBindings();
+            //MainMenuControllerBindings();
+            //LooseMenuControllerBindings();
+            //GameUiControllerBindings();
             MainGameControllerBindings();
         }
 
@@ -36,31 +36,30 @@ namespace PiggerBomber
 
         }
 
-        private void MainMenuControllerBindings()
-        {
-            var mainMenuView = Container.InstantiatePrefabForComponent<MainMenuView>(
-                _mainMenuView, _placeForUi);
-            Container.Bind<MainMenuView>().FromInstance(mainMenuView).AsSingle();
-        }
+        //private void MainMenuControllerBindings()
+        //{
+        //    var mainMenuView = Container.InstantiatePrefabForComponent<MainMenuView>(
+        //        _mainMenuView, _placeForUi);
+        //    Container.Bind<MainMenuView>().FromInstance(mainMenuView).AsSingle();
+        //}
 
-        private void LooseMenuControllerBindings()
-        {
-           var looseMenuView = Container.InstantiatePrefabForComponent<LooseMenuView>(
-               _looseMenuView, _placeForUi);
-           Container.Bind<LooseMenuView>().FromInstance(looseMenuView).AsSingle();
-        }
+        //private void LooseMenuControllerBindings()
+        //{
+        //   var looseMenuView = Container.InstantiatePrefabForComponent<LooseMenuView>(
+        //       _looseMenuView, _placeForUi);
+        //   Container.Bind<LooseMenuView>().FromInstance(looseMenuView).AsSingle();
+        //}
 
-        private void GameUiControllerBindings()
-        {
-            var gameUiView = Container.InstantiatePrefabForComponent<GameUiView>(
-                _gameUiView, _placeForUi);
-            Container.Bind<GameUiView>().FromInstance(gameUiView).AsSingle();
-        }
+        //private void GameUiControllerBindings()
+        //{
+        //    var gameUiView = Container.InstantiatePrefabForComponent<GameUiView>(
+        //        _gameUiView, _placeForUi);
+        //    Container.Bind<GameUiView>().FromInstance(gameUiView).AsSingle();
+        //}
 
         private void MainGameControllerBindings()
         {
-           
-
+            Container.BindInterfacesAndSelfTo<PlayerMoveController>().AsSingle();
         }
 
     }

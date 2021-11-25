@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PiggerBomber
+namespace Runner
 {
     internal sealed class GridControllerView : MonoBehaviour
     {
