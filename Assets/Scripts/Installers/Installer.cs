@@ -5,6 +5,9 @@ namespace Runner
 {
     internal sealed class Installer : MonoInstaller
     {
+        [Header("GameData")]
+        [SerializeField] private GameData _gameData;
+
         [Header("Prefabs")]
         [SerializeField] private Player _player;
 
@@ -17,6 +20,7 @@ namespace Runner
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<Player>().FromInstance(_player).AsSingle();
+            Container.Bind<GameData>().FromInstance(_gameData).AsSingle();
             InstalGameStateFactories();
             //MainMenuControllerBindings();
             //LooseMenuControllerBindings();
@@ -27,10 +31,10 @@ namespace Runner
         private void InstalGameStateFactories()
         {
             Container.Bind<GameStateFactory>().AsSingle();
-            Container.BindFactory<StartGameState, StartGameState.Factory>().WhenInjectedInto<GameStateFactory>();
-            Container.BindFactory<MainMenuController, MainMenuController.Factory>().WhenInjectedInto<StartGameState>();
             Container.BindFactory<GameGameState, GameGameState.Factory>().WhenInjectedInto<GameStateFactory>();
             Container.BindFactory<MainGameController, MainGameController.Factory>().WhenInjectedInto<GameGameState>();
+            Container.BindFactory<StartGameState, StartGameState.Factory>().WhenInjectedInto<GameStateFactory>();
+            Container.BindFactory<MainMenuController, MainMenuController.Factory>().WhenInjectedInto<StartGameState>();
             Container.BindFactory<EndGameState, EndGameState.Factory>().WhenInjectedInto<GameStateFactory>();
             Container.BindFactory<LooseGameController, LooseGameController.Factory>().WhenInjectedInto<EndGameState>();
 
@@ -59,8 +63,10 @@ namespace Runner
 
         private void MainGameControllerBindings()
         {
+            Container.BindInterfacesAndSelfTo<LevelController>().AsSingle();
+            Container.Bind<LevelsInitializations>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerMoveController>().AsSingle();
+            Container.BindInterfacesAndSelfTo<InputController>().AsSingle();
         }
-
     }
 }
