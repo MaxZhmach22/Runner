@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 
@@ -11,8 +12,10 @@ namespace Runner
 
         private GameState _state;
         private GameStateFactory _gameStateFactory;
-        private Rigidbody _rigidbody;
-        public Rigidbody Rigidbody => _rigidbody;
+        private Collider[] _colliders;
+        private Rigidbody[] _rigidBodies;
+        public Rigidbody Rigidbody => _rigidBodies[0];
+        private Animator _animator; 
         [field: SerializeField] public float Speed { get; private set; }
         [field: SerializeField] public float SwipeDeadZone { get; private set; }
 
@@ -28,13 +31,38 @@ namespace Runner
         public void Init(GameStateFactory gameStateFactory)
         {
             _gameStateFactory = gameStateFactory;
-            _rigidbody = GetComponent<Rigidbody>();
+            _rigidBodies = GetComponentsInChildren<Rigidbody>();
+            _colliders = GetComponentsInChildren<Collider>();
+            _animator = GetComponent<Animator>();
+            SetRagdollEnabled(false);
+            SetMain(true);
         }
 
-        public void Start() =>
+        private void SetRagdollEnabled(bool active)
+        {
+            foreach(Rigidbody rigidbody in _rigidBodies)
+            {
+                rigidbody.isKinematic = !active;
+            }
+            foreach (Collider collider in _colliders)
+            {
+                collider.enabled = active;
+            }
+        }
+
+        private void SetMain(bool active)
+        {
+            _animator.enabled = active;
+            _rigidBodies[0].isKinematic = !active;
+            _colliders[0].enabled = active;
+        }
+
+        public void Start()
+        {
+            gameObject.SetActive(false);
             ChangeState(GameStates.Game);
-
-
+        }
+           
         #endregion
 
 

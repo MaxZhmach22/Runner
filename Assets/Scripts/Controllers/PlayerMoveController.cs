@@ -32,8 +32,10 @@ namespace Runner
 
         public void FixedTick()
         {
-            _player.Rigidbody.MovePosition(Vector3.forward * _player.Speed * Time.deltaTime);
+            if (_player.isActiveAndEnabled)
+            {
+                _player.Rigidbody.MovePosition(_player.transform.position + Vector3.forward * _player.Speed * _bonusFactor * Time.deltaTime);
+            }
         }
-
     }
 }

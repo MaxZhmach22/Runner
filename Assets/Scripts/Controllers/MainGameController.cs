@@ -25,6 +25,7 @@ namespace Runner
 
         public override void Start()
         {
+            _player.gameObject.SetActive(true);
             _playerMoveController.Start();
         }
 
