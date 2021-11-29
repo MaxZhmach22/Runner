@@ -53,7 +53,12 @@ namespace Runner
             }
         }
 
-        private void CheckDirection() =>
-            _directionToMove?.OnNext(_endPosition.x > 0 ? Directions.Right : Directions.Left);
+        private void CheckDirection()
+        {
+            if (_player.InverseSwipeDirection)
+                _directionToMove?.OnNext(_endPosition.x > 0 ? Directions.Left : Directions.Right);
+            else
+                _directionToMove?.OnNext(_endPosition.x > 0 ? Directions.Right : Directions.Left);
+        }
     }
 }

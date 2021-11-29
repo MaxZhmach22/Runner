@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -13,9 +14,9 @@ namespace Runner
 
         [Header("Ui Views")]
         [SerializeField] private Transform _placeForUi;
-        //[SerializeField] private MainMenuView _mainMenuView;
-        //[SerializeField] private GameUiView _gameUiView;
-        //[SerializeField] private LooseMenuView _looseMenuView;
+        [SerializeField] private GameUiPresenter _gameUiPresenter;
+        [SerializeField] private LooseUiPresenter _looseUiPresenter;
+        [SerializeField] private WinUiPresenter _winUiPresenter;
 
         public override void InstallBindings()
         {
@@ -26,6 +27,20 @@ namespace Runner
             //LooseMenuControllerBindings();
             //GameUiControllerBindings();
             MainGameControllerBindings();
+            LooseGameControllerBindings();
+            WinGameControllerBindings();
+        }
+
+        private void WinGameControllerBindings()
+        {
+           var winUiPresenter = Container.InstantiatePrefabForComponent<WinUiPresenter>(_winUiPresenter, _placeForUi);
+            Container.Bind<WinUiPresenter>().FromInstance(winUiPresenter).AsSingle();
+        }
+
+        private void LooseGameControllerBindings()
+        {
+            var looseUiPresenter = Container.InstantiatePrefabForComponent<LooseUiPresenter>(_looseUiPresenter, _placeForUi);
+            Container.Bind<LooseUiPresenter>().FromInstance(looseUiPresenter).AsSingle();
         }
 
         private void InstalGameStateFactories()
@@ -35,8 +50,8 @@ namespace Runner
             Container.BindFactory<MainGameController, MainGameController.Factory>().WhenInjectedInto<GameGameState>();
             Container.BindFactory<StartGameState, StartGameState.Factory>().WhenInjectedInto<GameStateFactory>();
             Container.BindFactory<MainMenuController, MainMenuController.Factory>().WhenInjectedInto<StartGameState>();
-            Container.BindFactory<EndGameState, EndGameState.Factory>().WhenInjectedInto<GameStateFactory>();
-            Container.BindFactory<LooseGameController, LooseGameController.Factory>().WhenInjectedInto<EndGameState>();
+            Container.BindFactory<LooseGameState, LooseGameState.Factory>().WhenInjectedInto<GameStateFactory>();
+            Container.BindFactory<LooseGameController, LooseGameController.Factory>().WhenInjectedInto<LooseGameState>();
 
         }
 
@@ -64,9 +79,13 @@ namespace Runner
         private void MainGameControllerBindings()
         {
             Container.BindInterfacesAndSelfTo<LevelController>().AsSingle();
+            Container.Bind<ScoreController>().AsSingle();
             Container.Bind<LevelsInitializations>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerMoveController>().AsSingle();
             Container.BindInterfacesAndSelfTo<InputController>().AsSingle();
+
+            var gameUiPresenter = Container.InstantiatePrefabForComponent<GameUiPresenter>(_gameUiPresenter, _placeForUi);
+            Container.Bind<GameUiPresenter>().FromInstance(gameUiPresenter).AsSingle();
         }
     }
 }

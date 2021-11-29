@@ -4,14 +4,14 @@ using Zenject;
 
 namespace Runner
 {
-    internal sealed class EndGameState : GameState
+    internal sealed class LooseGameState : GameState
     {
         private LooseGameController _looseGameController;
         private readonly LooseGameController.Factory _looseGameControllerFactory;
 
         #region ClassLifeCycles
 
-        public EndGameState(LooseGameController.Factory looseGameControllerFactory) =>
+        public LooseGameState(LooseGameController.Factory looseGameControllerFactory) =>
            _looseGameControllerFactory = looseGameControllerFactory;
 
         public override void Start()
@@ -28,7 +28,7 @@ namespace Runner
 
         public override void Update() { }
 
-        internal sealed class Factory : PlaceholderFactory<EndGameState>
+        internal sealed class Factory : PlaceholderFactory<LooseGameState>
         {
         }
     }

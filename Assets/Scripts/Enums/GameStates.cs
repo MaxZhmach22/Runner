@@ -5,6 +5,7 @@
         None,
         Start,
         Game,
-        End
+        Loose,
+        Next
     }
 }

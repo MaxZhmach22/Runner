@@ -16,8 +16,12 @@ namespace Runner
         private Rigidbody[] _rigidBodies;
         public Rigidbody Rigidbody => _rigidBodies[0];
         private Animator _animator; 
-        [field: SerializeField] public float Speed { get; private set; }
+        public bool IsDead { get; private set; }
+        [field: SerializeField] public bool InverseSwipeDirection { get; private set; }
         [field: SerializeField] public float SwipeDeadZone { get; private set; }
+        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public float SideWayForce { get; private set; }
+        [SerializeField] private GameObject _virtualCamera;
 
         public GameStates CurrentGameState { get; private set; }
 
@@ -55,6 +59,10 @@ namespace Runner
             _animator.enabled = active;
             _rigidBodies[0].isKinematic = !active;
             _colliders[0].enabled = active;
+            if (!active)
+                _rigidBodies[0].constraints = RigidbodyConstraints.FreezeAll;
+            else
+                _rigidBodies[0].constraints = RigidbodyConstraints.FreezeRotation;
         }
 
         public void Start()
@@ -62,25 +70,51 @@ namespace Runner
             gameObject.SetActive(false);
             ChangeState(GameStates.Game);
         }
-           
+
         #endregion
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.layer == (int)PhysicsLayers.Obstacle)
+            {
+                Dead();
+                Debug.Log(gameObject.name);
+            }
+            if (collision.gameObject.CompareTag("Finish"))
+            {
+                Debug.Log("Finish");
+                ChangeState(GameStates.Next);
+            }
+        }
 
 
         #region Methods
 
         public void ChangeState(GameStates state)
         {
+            CurrentGameState = state;
             if (_state != null)
             {
                 _state.Dispose();
                 _state = null;
             }
-            CurrentGameState = state;
             _state = _gameStateFactory.CreateState(state);
             _state.Start();
         }
 
-      
+        public void Dead()
+        {
+            if (IsDead)
+                return;
+
+            IsDead = true;
+            SetMain(false);
+            SetRagdollEnabled(true);
+            _virtualCamera.SetActive(false);
+            //TODO ChangeState(GameStates.End);
+        }
+
+
         #endregion
     }
 }

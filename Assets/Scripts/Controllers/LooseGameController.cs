@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using Zenject;
+﻿using Zenject;
 using UniRx;
+
 
 namespace Runner
 {
@@ -8,9 +8,9 @@ namespace Runner
     {
         #region Fields
 
-        //private CompositeDisposable _disposables;
-        //private readonly LooseMenuView _looseMenuView;
-        //private readonly Player _player;
+        private CompositeDisposable _disposables;
+        private readonly LooseMenuView _looseMenuView;
+        private readonly Player _player;
 
         #endregion
 

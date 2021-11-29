@@ -9,7 +9,7 @@ namespace Runner
 
         readonly StartGameState.Factory _startStateFactory;
         readonly GameGameState.Factory _gameStateFactory;
-        readonly EndGameState.Factory _endStateFactory; 
+        readonly LooseGameState.Factory _endStateFactory; 
 
         #endregion
 
@@ -18,7 +18,7 @@ namespace Runner
         public GameStateFactory(
           StartGameState.Factory startStateFactory,
           GameGameState.Factory gameStateFactory,
-          EndGameState.Factory endStateFactory)
+          LooseGameState.Factory endStateFactory)
         {
             _startStateFactory = startStateFactory;
             _gameStateFactory = gameStateFactory;
@@ -36,7 +36,9 @@ namespace Runner
                     return _startStateFactory.Create();
                 case GameStates.Game:
                     return _gameStateFactory.Create();
-                case GameStates.End:
+                case GameStates.Loose:
+                    return _endStateFactory.Create();
+                case GameStates.Next:
                     return _endStateFactory.Create();
                 case GameStates.None:
                     break;

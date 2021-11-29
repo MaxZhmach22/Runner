@@ -3,6 +3,7 @@
     internal sealed class LevelController : BaseController, ILevelController
     {
         private LevelsInitializations _levelsInitializations;
+        private readonly Player _player;
         private GameData _gameData;
         private BaseLevel _currentLevel;
         private int _levelNumber;
@@ -10,11 +11,13 @@
 
         public LevelController(
             LevelsInitializations levelsInitializations, 
-            GameData gameData)
+            GameData gameData,
+            Player player)
         {
             _levelsInitializations = levelsInitializations;
             _gameData = gameData;
             _levelNumber = _gameData.StartWithLevel - 1;
+            _player = player;
         }
 
         public void SwitchToNextLevel()
@@ -38,7 +41,8 @@
 
         public override void Dispose()
         {
-            throw new System.NotImplementedException();
+            if (_player.CurrentGameState == GameStates.Next)
+                SwitchToNextLevel();
         }
     }
 }
