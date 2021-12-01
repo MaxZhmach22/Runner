@@ -3,11 +3,12 @@
 
 namespace Runner
 {
-    internal sealed class LooseGameController : BaseController
+    internal sealed class WinGameController : BaseController
     {
         #region Fields
 
-        private readonly LooseUiPresenter _looseUiPresenter;
+        private readonly WinUiPresenter _winUiPresenter;
+        private readonly LevelController _levelController;
         private readonly Player _player;
 
         #endregion
@@ -15,23 +16,27 @@ namespace Runner
 
         #region ClassLifeCycles
 
-        public LooseGameController(
-            LooseUiPresenter looseUiPresenter,
+        public WinGameController(
+            WinUiPresenter winUiPresenter,
+            LevelController levelController,
             Player player)
         {
-            _looseUiPresenter = looseUiPresenter;
+             _winUiPresenter = winUiPresenter;
+            _levelController = levelController;
             _player = player;
         }
-             
+
+
         public override void Start()
         {
-            _looseUiPresenter.ShowMenu();
+            _winUiPresenter.ShowMenu();
             SlowMotionEffect();
         }
 
         public override void Dispose()
         {
-            _looseUiPresenter.Dispose();
+            _levelController.SwitchToNextLevel();
+            _winUiPresenter.Dispose();
             _player.ResetValues();
         }
 

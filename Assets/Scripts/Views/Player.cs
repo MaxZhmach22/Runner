@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -9,18 +9,20 @@ namespace Runner
     {
         #region Fields
 
-
         private GameState _state;
         private GameStateFactory _gameStateFactory;
         private Collider[] _colliders;
         private Rigidbody[] _rigidBodies;
         public Rigidbody Rigidbody => _rigidBodies[0];
-        private Animator _animator; 
+        private Animator _animator;
         public bool IsDead { get; private set; }
+        public bool IsWin { get; private set; }
         [field: SerializeField] public bool InverseSwipeDirection { get; private set; }
         [field: SerializeField] public float SwipeDeadZone { get; private set; }
         [field: SerializeField] public float Speed { get; private set; }
         [field: SerializeField] public float SideWayForce { get; private set; }
+
+        [field: SerializeField] public float TimeScaleSlowDownTimer { get; private set; }
         [SerializeField] private GameObject _virtualCamera;
 
         public GameStates CurrentGameState { get; private set; }
@@ -38,8 +40,7 @@ namespace Runner
             _rigidBodies = GetComponentsInChildren<Rigidbody>();
             _colliders = GetComponentsInChildren<Collider>();
             _animator = GetComponent<Animator>();
-            SetRagdollEnabled(false);
-            SetMain(true);
+            ResetValues();
         }
 
         private void SetRagdollEnabled(bool active)
@@ -75,6 +76,9 @@ namespace Runner
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (IsDead)
+                return;
+
             if (collision.gameObject.layer == (int)PhysicsLayers.Obstacle)
             {
                 Dead();
@@ -83,7 +87,9 @@ namespace Runner
             if (collision.gameObject.CompareTag("Finish"))
             {
                 Debug.Log("Finish");
-                ChangeState(GameStates.Next);
+                IsWin = true;
+                _virtualCamera.SetActive(false);
+                ChangeState(GameStates.Win);
             }
         }
 
@@ -102,16 +108,25 @@ namespace Runner
             _state.Start();
         }
 
+        public void ResetValues()
+        {
+            IsDead = false;
+            IsWin = false;
+            SetRagdollEnabled(false);
+            SetMain(true);
+            _virtualCamera.SetActive(true);
+        }
+
         public void Dead()
         {
             if (IsDead)
                 return;
 
             IsDead = true;
-            SetMain(false);
             SetRagdollEnabled(true);
+            SetMain(false);
             _virtualCamera.SetActive(false);
-            //TODO ChangeState(GameStates.End);
+            ChangeState(GameStates.Loose);
         }
 
 

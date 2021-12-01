@@ -5,17 +5,20 @@ namespace Runner
 {
     internal sealed class GameGameState : GameState
     {
-        private MainGameController _mainGameController;
-        private readonly MainGameController.Factory _mainGameControllerFactory;
+        #region Fields
+
+        private readonly MainGameController _mainGameController;
+
+        #endregion
+
 
         #region ClassLifeCycles
 
-        public GameGameState(MainGameController.Factory gameProcessControllerFactory) =>
-             _mainGameControllerFactory = gameProcessControllerFactory;
+        public GameGameState(MainGameController mainGameController) =>
+             _mainGameController = mainGameController;
 
         public override void Start()
         {
-            _mainGameController = _mainGameControllerFactory.Create();
             _mainGameController.Start();
         }
 

@@ -16,7 +16,8 @@
         {
             _levelsInitializations = levelsInitializations;
             _gameData = gameData;
-            _levelNumber = _gameData.StartWithLevel - 1;
+            _levelNumber = 0;
+            _currentLevel = _levelsInitializations.Levels[_levelNumber];
             _player = player;
         }
 
@@ -24,7 +25,7 @@
         {
             _currentLevel.gameObject.SetActive(false);
             _levelNumber++;
-            if(_levelNumber > _gameData.LevelsList.Count)
+            if(_levelNumber >= _gameData.LevelsList.Count)
             {
                 _levelNumber = 0;
                 _currentLevel = _levelsInitializations.Levels[_levelNumber];
@@ -35,14 +36,14 @@
 
         public override void Start()
         {
-            _currentLevel = _levelsInitializations.Levels[_gameData.StartWithLevel - 1];
+            if (_gameData.TestLevelMode)
+                _currentLevel = _levelsInitializations.Levels[_gameData.StartWithLevel - 1];
+
             _currentLevel.gameObject.SetActive(true);
         }
 
         public override void Dispose()
         {
-            if (_player.CurrentGameState == GameStates.Next)
-                SwitchToNextLevel();
         }
     }
 }

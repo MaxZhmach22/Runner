@@ -944,6 +944,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3381415313114395563, guid: 5ed62ec0d759488449ec98116896a50b, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: -0.06656406
+      objectReference: {fileID: 0}
     - target: {fileID: 3381415313114395568, guid: 5ed62ec0d759488449ec98116896a50b, type: 3}
       propertyPath: m_Center.y
       value: 0.93
@@ -957,8 +961,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3381415313114395569, guid: 5ed62ec0d759488449ec98116896a50b, type: 3}
-      propertyPath: m_CollisionDetection
+      propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381415313114395569, guid: 5ed62ec0d759488449ec98116896a50b, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3381415313114395571, guid: 5ed62ec0d759488449ec98116896a50b, type: 3}
       propertyPath: _virtualCamera
@@ -978,6 +986,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3381415313114395571, guid: 5ed62ec0d759488449ec98116896a50b, type: 3}
       propertyPath: <InverseSwipeDirection>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381415313114395571, guid: 5ed62ec0d759488449ec98116896a50b, type: 3}
+      propertyPath: <TimeScaleSlowDownTimer>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

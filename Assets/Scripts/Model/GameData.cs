@@ -11,6 +11,7 @@ namespace Runner
 
         [field: SerializeField] public List<BaseLevel> LevelsList { get; private set; }
         [field: SerializeField] public int StartWithLevel { get; private set; }
+        [field: SerializeField] public bool TestLevelMode { get; private set; }
 
         #endregion
 

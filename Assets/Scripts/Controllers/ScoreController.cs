@@ -32,7 +32,7 @@ namespace Runner
             _onScoreChange.Value = _score;
             if (_player.CurrentGameState == GameStates.Loose)
                 _score = 0;
-            if (_player.CurrentGameState == GameStates.Next)
+            if (_player.CurrentGameState == GameStates.Win)
                 _scoreOnBeginLevel = _score;
         }
 

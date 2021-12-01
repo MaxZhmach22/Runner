@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Zenject;
 
 
 namespace Runner
@@ -37,6 +36,7 @@ namespace Runner
 
         public override void Start()
         {
+            DeafultTimeScale();
             _player.gameObject.SetActive(true);
             _levelController.Start();
             _inputController.Start();
@@ -55,11 +55,12 @@ namespace Runner
             Debug.Log(nameof(MainGameController) + " Disposed");
         }
 
-        #endregion
-
-
-        public sealed class Factory : PlaceholderFactory<MainGameController>
+        private void DeafultTimeScale()
         {
+            Time.timeScale = 1f;
+            Time.fixedDeltaTime = Time.timeScale * .02f;
         }
+
+        #endregion
     }
 }

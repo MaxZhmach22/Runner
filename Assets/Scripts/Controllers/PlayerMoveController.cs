@@ -37,7 +37,6 @@ namespace Runner
 
         public override void Dispose()
         {
-            ResetValues();
             _disposables.Clear();
         }
 
@@ -78,21 +77,22 @@ namespace Runner
             }
         }
 
-
         public void FixedTick()
         {
-            if (_player.IsDead)
+            if (_player.IsDead || _player.IsWin)
                 return;
 
             var direction = _sideWayDiection - _player.transform.position;
             _player.Rigidbody.MovePosition(_player.transform.position + SideWayMoveVector(direction) + ForwardMoveVector());
         }
+
         public void Tick()
         {
-           if(_player.transform.position.y < 0)
-           {
+            if (_player.IsDead || _player.IsWin)
+                return;
+
+            if (_player.transform.position.y < 0)
               _player.Dead();
-           }
         }
 
         private Vector3 ForwardMoveVector() =>

@@ -1,5 +1,5 @@
 ﻿using ModestTree;
-using UnityEngine;
+
 
 namespace Runner
 {
@@ -7,43 +7,45 @@ namespace Runner
     {
         #region Fields
 
-        readonly StartGameState.Factory _startStateFactory;
+        readonly WinGameState.Factory _winStateFactory;
         readonly GameGameState.Factory _gameStateFactory;
-        readonly LooseGameState.Factory _endStateFactory; 
+        readonly LooseGameState.Factory _looseStateFactory; 
 
         #endregion
+
 
         #region ClassLifeCycles
 
         public GameStateFactory(
-          StartGameState.Factory startStateFactory,
+          WinGameState.Factory startStateFactory,
           GameGameState.Factory gameStateFactory,
           LooseGameState.Factory endStateFactory)
         {
-            _startStateFactory = startStateFactory;
+            _winStateFactory = startStateFactory;
             _gameStateFactory = gameStateFactory;
-            _endStateFactory = endStateFactory;
-        } 
+            _looseStateFactory = endStateFactory;
+        }
 
         #endregion
 
 
-        public GameState CreateState(GameStates state) 
+        #region Methods
+
+        public GameState CreateState(GameStates state)
         {
             switch (state)
             {
-                case GameStates.Start:
-                    return _startStateFactory.Create();
                 case GameStates.Game:
                     return _gameStateFactory.Create();
+                case GameStates.Win:
+                    return _winStateFactory.Create();
                 case GameStates.Loose:
-                    return _endStateFactory.Create();
-                case GameStates.Next:
-                    return _endStateFactory.Create();
+                    return _looseStateFactory.Create();
                 case GameStates.None:
                     break;
             }
-            throw Assert.CreateException(); 
-        }
+            throw Assert.CreateException();
+        } 
+        #endregion
     }
 }

@@ -1,32 +1,37 @@
-﻿using System;
-using UnityEngine;
-using Zenject;
+﻿using Zenject;
+
 
 namespace Runner
 {
     internal sealed class LooseGameState : GameState
     {
-        private LooseGameController _looseGameController;
-        private readonly LooseGameController.Factory _looseGameControllerFactory;
+        #region Fields
 
-        #region ClassLifeCycles
-
-        public LooseGameState(LooseGameController.Factory looseGameControllerFactory) =>
-           _looseGameControllerFactory = looseGameControllerFactory;
-
-        public override void Start()
-        {
-            Time.timeScale = 0f;
-            _looseGameController = _looseGameControllerFactory.Create();
-            _looseGameController.Start();
-        }
-
-        public override void Dispose() =>
-            _looseGameController.Dispose(); 
+        private readonly LooseGameController _looseGameController;
 
         #endregion
 
+
+        #region ClassLifeCycles
+
+        public LooseGameState(LooseGameController looseGameController) =>
+           _looseGameController = looseGameController;
+
+        public override void Start() =>
+            _looseGameController.Start();
+
+        public override void Dispose() =>
+            _looseGameController.Dispose();
+
+        #endregion
+
+
+        #region Methods
+
         public override void Update() { }
+
+        #endregion
+
 
         internal sealed class Factory : PlaceholderFactory<LooseGameState>
         {
