@@ -9,7 +9,6 @@ namespace Runner
 
         private readonly WinUiPresenter _winUiPresenter;
         private readonly LevelController _levelController;
-        private readonly Player _player;
 
         #endregion
 
@@ -18,12 +17,10 @@ namespace Runner
 
         public WinGameController(
             WinUiPresenter winUiPresenter,
-            LevelController levelController,
-            Player player)
+            LevelController levelController)
         {
              _winUiPresenter = winUiPresenter;
             _levelController = levelController;
-            _player = player;
         }
 
 
@@ -37,10 +34,9 @@ namespace Runner
         {
             _levelController.SwitchToNextLevel();
             _winUiPresenter.Dispose();
-            _player.ResetValues();
         }
 
-        private static void SlowMotionEffect()
+        private void SlowMotionEffect()
         {
             Time.timeScale = 0.1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;

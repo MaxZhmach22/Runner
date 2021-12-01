@@ -42,7 +42,7 @@ namespace Runner
 
         private void ResetValues()
         {
-            _player.Rigidbody.position = StartTrackNumberPosition();
+            _player.transform.position = StartTrackNumberPosition();
             _currentTrack = _levelController.CurrentLevel.PlayerStartTrackNumber;
             _sideWayDiection = new Vector3(_levelController.CurrentLevel.Tracks[_currentTrack - 1].position.x, 0, 0);
         }
@@ -92,7 +92,7 @@ namespace Runner
                 return;
 
             if (_player.transform.position.y < 0)
-              _player.Dead();
+                _player.Dead();
         }
 
         private Vector3 ForwardMoveVector() =>

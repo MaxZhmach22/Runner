@@ -2,12 +2,12 @@
 {
     internal sealed class LevelController : BaseController, ILevelController
     {
-        private LevelsInitializations _levelsInitializations;
-        private readonly Player _player;
-        private GameData _gameData;
+        public BaseLevel CurrentLevel => _currentLevel;
+
+        private readonly LevelsInitializations _levelsInitializations;
+        private readonly GameData _gameData;
         private BaseLevel _currentLevel;
         private int _levelNumber;
-        public BaseLevel CurrentLevel => _currentLevel;
 
         public LevelController(
             LevelsInitializations levelsInitializations, 
@@ -18,7 +18,6 @@
             _gameData = gameData;
             _levelNumber = 0;
             _currentLevel = _levelsInitializations.Levels[_levelNumber];
-            _player = player;
         }
 
         public void SwitchToNextLevel()
@@ -44,6 +43,8 @@
 
         public override void Dispose()
         {
+            foreach (var interactableItem in _currentLevel.InteractableObjects)
+                interactableItem.gameObject.SetActive(true);
         }
     }
 }

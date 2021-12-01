@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-
-
-namespace Runner
+﻿namespace Runner
 {
     internal sealed class MainGameController : BaseController
     {
@@ -36,8 +33,10 @@ namespace Runner
 
         public override void Start()
         {
-            DeafultTimeScale();
+            TimeShift.DeafultTimeScale();
             _player.gameObject.SetActive(true);
+            _player.ResetValues();
+
             _levelController.Start();
             _inputController.Start();
             _playerMoveController.Start();
@@ -52,13 +51,6 @@ namespace Runner
             _inputController.Dispose();
             _scoreController.Dispose();
             _gameUiPresenter.Dispose();
-            Debug.Log(nameof(MainGameController) + " Disposed");
-        }
-
-        private void DeafultTimeScale()
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
         }
 
         #endregion

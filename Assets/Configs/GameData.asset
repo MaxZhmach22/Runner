@@ -16,5 +16,5 @@ MonoBehaviour:
   - {fileID: 7067547706920095035, guid: 64a382e83216dea48b44a077d81a19a1, type: 3}
   - {fileID: 4695051493750576675, guid: 16f538b9440b60d40a7b5f660b51a598, type: 3}
   - {fileID: 6874508160375269888, guid: 8c8f1208ee5a56b4089e47e4275c94c2, type: 3}
-  <StartWithLevel>k__BackingField: 2
+  <StartWithLevel>k__BackingField: 1
   <TestLevelMode>k__BackingField: 0
