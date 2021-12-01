@@ -45,7 +45,7 @@ namespace Zenject
 #if !NOT_UNITY3D
         [SerializeField]
 #endif
-        bool _displayWarningWhenResolvingDuringInstall;
+        bool _displayWarningWhenResolvingDuringInstall = false;
 
 #if !NOT_UNITY3D
         [SerializeField]

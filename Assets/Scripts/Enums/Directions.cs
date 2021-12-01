@@ -2,8 +2,8 @@
 {
     internal enum Directions
     {
-        None = 0,
         Left = -1,
+        None = 0,
         Right = 1,
     }
 }

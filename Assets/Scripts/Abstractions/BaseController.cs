@@ -2,7 +2,11 @@
 {
     internal abstract class BaseController
     {
-        public abstract void Dispose();
+        #region Methods
+
         public abstract void Start();
+        public abstract void Dispose(); 
+
+        #endregion
     }
 }

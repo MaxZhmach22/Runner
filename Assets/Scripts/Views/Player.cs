@@ -7,29 +7,38 @@ namespace Runner
 {
     internal class Player : MonoBehaviour
     {
-        #region Fields
+        #region InspectorFields
+
+        [field: Header("Input Settings:")]
         [field: SerializeField] public bool InverseSwipeDirection { get; private set; }
+        [field: Range(0, 1000)]
         [field: SerializeField] public float SwipeDeadZone { get; private set; }
+
+        [field: Header("Movement Settings:")]
         [field: SerializeField] public float Speed { get; private set; }
         [field: SerializeField] public float SideWayForce { get; private set; }
-        [field: SerializeField] public float TimeScaleSlowDownTimer { get; private set; }
+
+        [field: Space]
         [SerializeField] private GameObject _virtualCamera;
 
-        private GameState _state;
-        private GameStateFactory _gameStateFactory;
-        private Collider[] _colliders;
-        private Rigidbody[] _rigidBodies;
-        private float _startSpeed;
+        #endregion
 
-        public Subject<float> InteractableItemValue = new Subject<float>();
-        public Rigidbody Rigidbody => _rigidBodies[0];
-        private Animator _animator;
+
+        #region Fields
+
         public bool IsDead { get; private set; }
         public bool IsWin { get; private set; }
-
         public GameStates CurrentGameState { get; private set; }
+        public Subject<float> InteractableItemValue = new Subject<float>();
+        public Rigidbody Rigidbody => _rigidBodies[0];
 
-
+        private Collider[] _colliders;
+        private Rigidbody[] _rigidBodies;
+        private Animator _animator;
+        private GameState _state;
+        private GameStateFactory _gameStateFactory;
+        private float _startSpeed;
+       
         #endregion
 
 
@@ -45,20 +54,50 @@ namespace Runner
             _animator = GetComponent<Animator>();
             _startSpeed = Speed;
         }
+        public void Start()
+        {
+            gameObject.SetActive(false);
+            ChangeGameState(GameStates.Game);
+        }
+
+        #endregion
+
+
+        #region UnityMethods
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (IsDead || IsWin)
+                return;
+
+            if (collision.gameObject.layer == (int)PhysicsLayers.Obstacle)
+                Dead();
+
+            if (collision.gameObject.CompareTag("Finish"))
+            {
+                IsWin = true;
+                ChangeGameState(GameStates.Win);
+            }
+
+            if (collision.gameObject.layer == (int)PhysicsLayers.Interactable)
+                CheckInteractableObject(collision);
+        }
+
+
+        #endregion
+
+
+        #region Methods
 
         private void SetRagdollEnabled(bool active)
         {
             foreach(Rigidbody rigidbody in _rigidBodies)
-            {
                 rigidbody.isKinematic = !active;
-            }
             foreach (Collider collider in _colliders)
-            {
                 collider.enabled = active;
-            }
         }
 
-        private void SetMain(bool active)
+        private void SetMainBodyEnabled(bool active)
         {
             _animator.enabled = active;
             _rigidBodies[0].isKinematic = !active;
@@ -69,57 +108,7 @@ namespace Runner
                 _rigidBodies[0].constraints = RigidbodyConstraints.FreezeRotation;
         }
 
-        public void Start()
-        {
-            gameObject.SetActive(false);
-            ChangeState(GameStates.Game);
-        }
-
-        #endregion
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (IsDead)
-                return;
-
-            if (collision.gameObject.layer == (int)PhysicsLayers.Obstacle)
-            {
-                Dead();
-                Debug.Log(gameObject.name);
-            }
-            if (collision.gameObject.CompareTag("Finish"))
-            {
-                Debug.Log("Finish");
-                IsWin = true;
-                _virtualCamera.SetActive(false);
-                ChangeState(GameStates.Win);
-            }
-            if(collision.gameObject.layer == (int)PhysicsLayers.Interactable)
-            {
-                if(collision.gameObject.TryGetComponent<BaseInteractable>(out var baseInteractable))
-                {
-                    InteractableItemValue?.OnNext(baseInteractable.Value);
-                    Booster booster = baseInteractable as Booster;
-                    if (booster != null)
-                    {
-                        Speed += booster.IncreaseSpeed;
-                        _animator.SetFloat("RunSpeedAnimation", Mathf.Clamp(Speed, 2f,4f));
-                    } 
-                    Slower slower = baseInteractable as Slower;
-                    if (slower != null)
-                    {
-                        Speed -= slower.DecreaseSpeed;
-                        _animator.SetFloat("RunSpeedAnimation", Mathf.Clamp(Speed, 2f, 4f));
-                    }
-                }
-                collision.gameObject.SetActive(false);
-            }
-        }
-
-
-        #region Methods
-
-        public void ChangeState(GameStates state)
+        public void ChangeGameState(GameStates state)
         {
             CurrentGameState = state;
             if (_state != null)
@@ -138,7 +127,7 @@ namespace Runner
             Speed = _startSpeed;
             _animator.SetFloat("RunSpeedAnimation", _startSpeed);
             SetRagdollEnabled(false);
-            SetMain(true);
+            SetMainBodyEnabled(true);
             _virtualCamera.SetActive(true);
         }
 
@@ -149,11 +138,31 @@ namespace Runner
 
             IsDead = true;
             SetRagdollEnabled(true);
-            SetMain(false);
+            SetMainBodyEnabled(false);
             _virtualCamera.SetActive(false);
-            ChangeState(GameStates.Loose);
+            ChangeGameState(GameStates.Loose);
         }
 
+        private void CheckInteractableObject(Collision collision)
+        {
+            if (collision.gameObject.TryGetComponent<BaseInteractable>(out var baseInteractable))
+            {
+                InteractableItemValue?.OnNext(baseInteractable.Value);
+                Booster booster = baseInteractable as Booster;
+                if (booster != null)
+                {
+                    Speed = Mathf.Clamp(Speed + booster.IncreaseSpeed, 2f, 4f);
+                    _animator.SetFloat("RunSpeedAnimation", Speed);
+                }
+                Slower slower = baseInteractable as Slower;
+                if (slower != null)
+                {
+                    Speed = Mathf.Clamp(Speed - slower.DecreaseSpeed, 2f, 4f);
+                    _animator.SetFloat("RunSpeedAnimation", Speed);
+                }
+            }
+            collision.gameObject.SetActive(false);
+        }
 
         #endregion
     }

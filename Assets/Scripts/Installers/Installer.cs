@@ -6,6 +6,8 @@ namespace Runner
 {
     internal sealed class Installer : MonoInstaller
     {
+        #region Fields
+
         [Header("GameData")]
         [SerializeField] private GameData _gameData;
 
@@ -17,6 +19,11 @@ namespace Runner
         [SerializeField] private GameUiPresenter _gameUiPresenter;
         [SerializeField] private LooseUiPresenter _looseUiPresenter;
         [SerializeField] private WinUiPresenter _winUiPresenter;
+
+        #endregion
+
+
+        #region Methods
 
         public override void InstallBindings()
         {
@@ -51,7 +58,7 @@ namespace Runner
         private void WinGameControllerBindings()
         {
             Container.BindInterfacesAndSelfTo<WinGameController>().AsSingle();
-           var winUiPresenter = Container.InstantiatePrefabForComponent<WinUiPresenter>(_winUiPresenter, _placeForUi);
+            var winUiPresenter = Container.InstantiatePrefabForComponent<WinUiPresenter>(_winUiPresenter, _placeForUi);
             Container.Bind<WinUiPresenter>().FromInstance(winUiPresenter).AsSingle();
         }
 
@@ -60,6 +67,8 @@ namespace Runner
             Container.BindInterfacesAndSelfTo<LooseGameController>().AsSingle();
             var looseUiPresenter = Container.InstantiatePrefabForComponent<LooseUiPresenter>(_looseUiPresenter, _placeForUi);
             Container.Bind<LooseUiPresenter>().FromInstance(looseUiPresenter).AsSingle();
-        }
+        } 
+
+        #endregion
     }
 }

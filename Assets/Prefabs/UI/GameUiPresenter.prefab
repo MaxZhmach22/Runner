@@ -202,7 +202,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4812110672753699784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f40971ee16f68ac4086d559b6aeaa3c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a02b80ab9fefa44e9f020457bba25bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreTxt: {fileID: 235982596427523027}

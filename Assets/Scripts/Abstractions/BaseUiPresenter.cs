@@ -21,11 +21,11 @@ namespace Runner
 
         [Inject]
         protected void Init(
-            Player player, 
-            ScoreController scoreController)
+            ScoreController scoreController,
+            Player player)
         {
-            Player = player;
             _scoreController = scoreController;
+            Player = player;
         }
 
         protected virtual void Start()

@@ -5,12 +5,10 @@ namespace Runner
 {
     internal abstract class BaseInteractable : MonoBehaviour
     {
-        [field: SerializeField] public float Value { get; protected set; }
+        #region Fields
 
-        protected virtual void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.CompareTag("Player"))
-                gameObject.SetActive(false);
-        }
+        [field: SerializeField] public float Value { get; protected set; } 
+
+        #endregion
     }
 }
